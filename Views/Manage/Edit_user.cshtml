@@ -1,0 +1,104 @@
+﻿@model DiplomSite.Models.EditModel
+@{
+    ViewBag.Title = "Редактирование пользователя";
+}
+
+@Html.ValidationSummary(false)
+
+<style>
+    h2 {
+        color: rgb(219,216,216);
+        margin-bottom: 60px;
+        text-align: center;
+    }
+
+    .form-horizontal {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .form-group {
+        color: rgb(157, 157, 157);
+        display: flex;
+        width: 200px;
+        flex-direction: column;
+        margin: 0 0 15px !important;
+    }
+
+    .button1 {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin-top: 40px;
+    }
+    input{
+        margin-bottom:15px;
+    }
+</style>
+<link href="/Content/input.css" rel="stylesheet">
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+        @Html.ValidationSummary(true, "")
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.HiddenFor(m => m.Id, new { @class = "" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.UserName, new { @class = "" })
+                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", pattern = @"[A-Za-z0-9]*"})
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email, new { @class = "" })
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", pattern = @"([A-z0-9_.-]{1,})@([A-z0-9_.-]{1,}).([A-z]{2,8})"})
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Password, new { @class = "" })
+                @Html.TextBoxFor(m => m.Password, new { @class = "form-control", pattern = @"[0-9]*", @maxlength = "10" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Role, new { @class = "" })
+                @Html.DropDownListFor(m => m.Role, new SelectList(new string[] {"admin", "user"}), new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <input type="submit" class="button1" value="Сохранить" onclick="return Formdata(this.form)"/>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    function Formdata(data) {
+        if (data.UserName.value.length == 0 || data.Email.value.length == 0 || data.password.value.length == 0) {
+            alert('Заполните все поля!!!');
+            return false;
+        }
+    }
+
+    function setError(id, txt) {
+        const content = document.getElementById(id)
+        content.addEventListener("input", () => {
+            if (content.validity.patternMismatch) {
+                content.setCustomValidity(txt);
+            } else {
+                content.setCustomValidity("");
+            }
+        })
+    }
+
+    setError("UserName", "Ошибка! Только латинские буквы(a-Z) и цифры(0-9).");
+    setError("Email", "Ошибка! Пример(primer@mail.ru).");
+    setError("Password", "Ошибка! Только цифры(0-9).");
+</script>
+
+

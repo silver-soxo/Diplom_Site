@@ -1,0 +1,84 @@
+﻿@model DiplomSite.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Регистрация";
+}
+<style>
+    label{
+        color: rgb(157, 157, 157);
+    }
+
+    input {
+        margin-bottom: 20px;
+    }
+
+    #button1 {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin-top: 5px;
+    }
+
+    h2 {
+        color: rgb(219,216,216);
+        margin-bottom: 25px;
+    }
+</style>
+<h2>@ViewBag.Title</h2>
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.UserName, new { @class = "" })
+            <div >
+                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Email, new { @class = "" })
+            <div >
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Password, new { @class = "" })
+            <div >
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "" })
+            <div >
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="">
+                <input type="submit" class="btn btn-default" id="button1" value="Регистрация" />
+            </div>
+        </div>
+    }
+<style>
+    h2 {
+        text-align: center;
+    }
+    .form-horizontal {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+</style>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

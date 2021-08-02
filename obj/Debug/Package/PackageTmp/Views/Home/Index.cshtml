@@ -1,0 +1,146 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<head>
+    <link href="/Content/Table.css" rel="stylesheet">
+</head>
+<style>
+    h3 {
+        color: rgb(219,216,216);
+        margin-bottom: 25px;
+    }
+
+    #h3_2 {
+        margin-top: 60px;
+    }
+
+    #td_1 {
+        text-align: center;
+    }
+
+    .tr1:last-child .td1:last-child {
+        border-radius: 0 0 0 0;
+    }
+
+    .button1 {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin-top: 40px;
+    }
+</style>
+@if (null != TempData["alertMessage"])
+{
+    <script type="text/javascript">
+       alert("@TempData["alertMessage"]");
+    </script>
+}
+<div class="table-container">
+    <h3 align="center">Посетители</h3><br />
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Серия паспорта</th>
+            <th>Номер паспорта</th>
+            <th>Телефон</th>
+            <th>Департамент</th>
+            <th>Email</th>
+        </tr>
+        @if (ViewBag.visitor != null)
+        {
+            foreach (var b in ViewBag.visitor)
+            {
+                <tr>
+                    <td>@b.visitor_id</td>
+                    <td>@b.visitor_name</td>
+                    <td>@b.visitor_surname</td>
+                    <td>@b.Pasports.pasport_cod</td>
+                    <td>@b.Pasports.pasport_number</td>
+                    <td>@b.visitor_phone</td>
+                    <td>@b.Departments.department_name</td>
+                    <td>@b.visitor_email</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="8" id="td_1">Пока нет записей</td>
+            </tr>
+        }
+    </table><br /><br />
+    <h3 align="center" id="h3_2">Пользователи приложения</h3><br />
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Логин</th>
+            <th>Пароль</th>
+            <th>Должность</th>
+        </tr>
+        @foreach (var b in ViewBag.user)
+        {
+            <tr>
+                <td>@b.user_id</td>
+                <td>@b.user_name</td>
+                <td>@b.user_surname</td>
+                <td>@b.user_login</td>
+                <td>@b.user_password</td>
+                <td>@b.user_lvl</td>
+            </tr>
+        }
+    </table>
+    <h3 align="center" id="h3_2">Пользователи сайта</h3><br />
+    <table>
+        <tr>
+            <th hidden>Id</th>
+            <th style="border-top-left-radius: 10px;">Логин</th>
+            <th>Почта</th>
+            <th>Роль</th>
+            <th></th>
+        </tr>
+        @foreach (var b in ViewBag.site_users)
+        {
+            <tr class="tr1">
+                <td hidden>@b.Id</td>
+                <td class="td1">@b.UserName</td>
+                <td>@b.Email</td>
+                <td>@b.Role</td>
+                <td>
+                    @using (Html.BeginForm("Delete_user", "Manage", new { id = b.Id, enctype = "multipart/form-data", onsubmit = "return validateForm()" }))
+                    {
+                        @Html.ActionLink("Изменить", "Edit_user", "Manage", new { id = b.Id },
+                            new { @class = "btn btn-primary btn-xs", style = "float: left; margin-right: 10px" })
+                        if (b.Id != ViewBag.user_id)
+                        {
+                            <button class="btn btn-danger btn-xs" type="submit" onclick="return validateForm();">Удалить</button>
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+    @using (Html.BeginForm("Add_user", "Manage", FormMethod.Get))
+    {
+        <button class="button1" type="submit">Добавить пользователя</button>
+    }
+</div>
+<script>
+    function validateForm() {
+        let isAcception = confirm("Удалить пользователя?");
+        if (isAcception) {
+            alert("Пользователь удален!")
+        }
+        else {
+            return false;
+        }
+    }
+</script>

@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "GetMessage";
+}
+<h3>Test</h3>
+<link href="/Content/ModalWindow.css" rel="stylesheet">
+<div class="modal">
+    <div class="shadow-box"></div>
+    <div class="content">
+        <form method="post" action="@Url.Action("GetMessage", "Home")">
+            <input type="text" name="str" />
+            <input type="text" value="@ViewBag.str" />
+            <button>Отправить</button>
+        </form>
+    </div>
+</div>
+<button id="button3"><a>Отправить</a></button>
+<script>
+    document.getElementById("button3").onclick = openModal;
+    function openModal() {
+        const el = document.querySelector(".modal");
+        el.classList.add("open");
+    }
+    document.querySelector(".shadow-box").onclick = closeModal;
+    function closeModal() {
+        const el = document.querySelector(".modal");
+        el.classList.remove("open");
+    }
+</script>
+

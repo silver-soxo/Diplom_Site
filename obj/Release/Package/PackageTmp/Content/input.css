@@ -1,0 +1,35 @@
+﻿.input-container {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+}
+
+.input-container input:invalid {
+    border: 1px solid red;
+    outline: red solid;
+}
+
+.error-message {
+    opacity: 0;
+}
+
+.input-container input:invalid + p {
+    opacity: 1;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+p {
+    justify-content: center;
+    font-family: serif;
+    font-size: 12px;
+    text-align: center;
+}
+
+.header2 {
+    text-align: center;
+}

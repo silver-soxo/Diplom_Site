@@ -1,0 +1,96 @@
+﻿@using DiplomSite.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Выполнить вход";
+}
+<style>
+    label{
+        color: rgb(157, 157, 157);
+    }
+
+    #button1 {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin-top: 25px;
+    }
+
+    h2 {
+        color: rgb(219,216,216);
+        margin-bottom: 25px;
+    }
+</style>   
+<h2>@ViewBag.Title</h2><br/>
+<div class="row">
+    <div class="content-container">
+        <section id="loginForm">
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(m => m.UserName, new { @class = "" })
+                    <div class="">
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", style = "margin-bottom: 15px" })
+                        @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password, new { @class = "" })
+                    <div class="">
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="">
+                        <div class="checkbox">
+                            @Html.CheckBoxFor(m => m.RememberMe)
+                            @Html.LabelFor(m => m.RememberMe)
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.ActionLink("Забыли пароль?", "ForgotPassword", "Account", new {@class = "action" })
+                </div>
+                <div class="form-group">
+                    <div class="">
+                        <input type="submit" value="Выполнить вход" class="btn btn-default" id="button1" />
+                    </div>
+                </div>
+                @* Включите, когда будет включено подтверждение учетной записи для функции сброса пароля
+            <p>
+                @Html.ActionLink("Забыли пароль?", "ForgotPassword")
+            </p>*@
+            }
+        </section>
+    </div>
+</div>
+
+<style>
+    h2 {
+        text-align: center;
+    }
+    .form-group {
+        margin: 0 !important;
+    }
+
+    .form-horizontal {
+        display: grid;
+        justify-items: center;
+        gap: 20px;
+    }
+
+    .checkbox input {
+        margin: 0 !important;
+    }
+</style>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

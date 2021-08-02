@@ -1,0 +1,119 @@
+﻿@model DiplomSite.Models.VisitorAdd
+@{
+    ViewBag.Title = "Заявка на посищение";
+}
+<style>
+    h2 {
+        color: rgb(219,216,216);
+        margin-bottom: 60px;
+        text-align: center;
+    }
+
+    .form-horizontal {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .form-group {
+        color: rgb(157, 157, 157);
+        display: flex;
+        width: 200px;
+        flex-direction: column;
+        margin: 0 0 15px !important;
+    }
+
+    .button1 {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin-top: 40px;
+    }
+    input{
+        margin-bottom:15px;
+    }
+</style>
+<link href="/Content/input.css" rel="stylesheet">
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+        @Html.ValidationSummary(true, "")
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.HiddenFor(m => m.Email, new { @Value = $"{ViewBag.Email}" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name, new { @class = "" })
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control", pattern = @"[А-Яа-яЁё]*" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Surname, new { @class = "" })
+                @Html.TextBoxFor(m => m.Surname, new { @class = "form-control", pattern = @"[А-Яа-яЁё]*" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Pasport_cod, new { @class = "" })
+                @Html.TextBoxFor(m => m.Pasport_cod, new { @class = "form-control", pattern = @"[0-9]{4}", maxlength = "4" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Pasport_number, new { @class = "" })
+                @Html.TextBoxFor(m => m.Pasport_number, new { @class = "form-control", pattern = @"[0-9]{6}", @maxlength = "6" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Phone, new { @class = "" })
+                @Html.TextBoxFor(m => m.Phone, new { @class = "form-control", pattern = @"[0-9]{11}", @maxlength = "11" })
+            </div>
+            <div class="form-group">
+                <label class="input-container">
+                    <span style="margin-bottom:5px">Департамент</span><select style="height: 34px; width: 200.4px;" name="department_name" class="select1">
+                        @foreach (var b in ViewBag.departments)
+                        {
+                            <option value="@b.department_name">@b.department_name</option>
+                        }
+                    </select>
+                    <p class="error-message">Не верно указаны данные</p>
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="button1" value="Регистрация" onclick="return Formdata(this.form)" style="margin-top:30px" />
+            </div>
+        </div>
+    </div>
+}
+<script>
+    function Formdata(data) {
+        if (data.Name.value.length == 0 || data.Surname.value.length == 0 || data.Pasport_cod.value.length == 0 || data.Pasport_number.value.length == 0 || data.Phone.value.length == 0) {
+            alert('Заполните все поля!!!');
+            return false;
+        }
+    }
+
+    function setError(id, txt) {
+        const content = document.getElementById(id)
+        content.addEventListener("input", () => {
+            if (content.validity.patternMismatch) {
+                content.setCustomValidity(txt);
+            } else {
+                content.setCustomValidity("");
+            }
+        })
+    }
+
+    setError("Name", "Ошибка! Только русские буквы(а-Я).");
+    setError("Surname", "Ошибка! Только русские буквы(а-Я).");
+    setError("Pasport_cod", "Ошибка! Только цифры(0-9).");
+    setError("Pasport_number", "Ошибка! Только цифры(0-9).");
+    setError("Phone", "Ошибка! Только цифры(0-9) Пример: 89112223344");
+</script>
+
+

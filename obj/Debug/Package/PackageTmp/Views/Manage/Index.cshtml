@@ -1,0 +1,97 @@
+﻿@model DiplomSite.Models.IndexViewModel
+@{
+    ViewBag.Title = "Управление";
+}
+<style>
+    h2{
+        color: rgb(219,216,216);
+        margin-bottom: 25px;
+    }
+
+    dt, dd {
+        color: rgb(157, 157, 157);
+    }
+    dt{
+        padding-right: 20px;
+    }
+
+    #td_1 {
+        text-align: center;
+    }
+</style>
+<h2>Изменение параметров учетной записи</h2>
+
+<p class="text-success">@ViewBag.StatusMessage</p>
+<div>
+    <dl class="dl-horizontal">
+        <dt style="width: 200px">Пароль:</dt>
+        <dd>
+            [
+            @if (Model.HasPassword)
+            {
+                @Html.ActionLink("Смена пароля", "ChangePassword")
+            }
+            else
+            {
+                @Html.ActionLink("Создать", "SetPassword")
+            }
+            ]
+        </dd>
+        <dt style="width: 200px">Удалить аккаунт:</dt>
+        <dd>
+            [@Html.ActionLink("Удалить", "Delete")]
+        </dd>
+        <dt style="width: 200px">Редактировать профиль:</dt>
+        <dd>
+            [@Html.ActionLink("Редактировать", "Edit")]
+        </dd>
+        @*
+        Номера телефонов можно использовать в качестве второго проверочного фактора для системы двухфакторной проверки подлинности.
+
+         В <a href="https://go.microsoft.com/fwlink/?LinkId=403804">этой статье</a>
+            можно узнать, как для этого приложения ASP.NET настроить двухфакторную проверку подлинности с использованием SMS.
+
+         Настроив двухфакторную проверку подлинности, раскомментируйте следующий блок
+        *@
+        @*
+        <dt>Номер телефона:</dt>
+        <dd>
+            @(Model.PhoneNumber ?? "None")
+            @if (Model.PhoneNumber != null)
+            {
+                <br />
+                <text>[&nbsp;&nbsp;@Html.ActionLink("Change", "AddPhoneNumber")&nbsp;&nbsp;]</text>
+                using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <text>[<input type="submit" value="Удалить" class="btn-link" />]</text>
+                }
+            }
+            else
+            {
+                <text>[&nbsp;&nbsp;@Html.ActionLink("Add", "AddPhoneNumber")
+            }
+        </dd>
+        *@
+        @*@if (Model.TwoFactor)
+        {
+            using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <text>Включено
+                <input type="submit" value="Отключить" class="btn btn-link" />
+                </text>
+            }
+        }
+        else
+        {
+            using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <text>Отключено
+                <input type="submit" value="Включить" class="btn btn-link" />
+                </text>
+            }
+        }*@
+    </dl>
+</div>
